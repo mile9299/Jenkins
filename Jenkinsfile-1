@@ -10,7 +10,6 @@ pipeline {
       }
     }
     stage('Scan') {
-      echo "Trivy Scanning"
       steps {
         sh 'trivy image darinpope/java-web-app:latest --output cve_report.html'
       }
