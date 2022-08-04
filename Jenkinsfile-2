@@ -15,7 +15,7 @@ pipeline {
         sh 'trivy image --no-progress --exit-code 1 --severity HIGH,CRITICAL darinpope/java-web-app:latest --format template --template "html.tpl" --output cve_report.html'
       }
     }
-  }--template "@contrib/sarif.tpl"
+  }
  post {
   always {
           archiveArtifacts artifacts: "cve_report", fingerprint: true
