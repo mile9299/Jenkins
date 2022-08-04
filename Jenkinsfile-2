@@ -12,7 +12,7 @@ pipeline {
     stage('Trivy Scan') {
      steps {
         echo "Trivy Scanning"
-        sh 'trivy image --no-progress --exit-code 1 --severity HIGH,CRITICAL darinpope/java-web-app:latest --format template --output cve_report.html'
+        sh 'trivy image --no-progress --exit-code 1 --severity HIGH,CRITICAL darinpope/java-web-app:latest --output cve_report.html'
       }
     }
   }
