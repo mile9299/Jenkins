@@ -10,9 +10,23 @@ pipeline {
       }
     }
     stage('Scan') {
+      echo "Trivy Scanning"
       steps {
-        sh 'trivy image darinpope/java-web-app:latest'
+        sh 'trivy image darinpope/java-web-app:latest --output cve_report.html'
       }
     }
   }
+  post {
+  always {
+          archiveArtifacts artifacts: "cve_report", fingerprint: true
+          publishHTML (target: [
+            allowMissing: false,
+            alwaysLinkToLastBuild: false,
+            keepAll: true,
+            reportDir: '.',
+            reportFiles: 'cve_report.html',
+            reportName: 'Trivy CVE Report'
+            ])
+          }
+       }
 }
