@@ -14,6 +14,7 @@ pipeline {
         sh 'trivy image darinpope/java-web-app:latest --output cve_report.html'
       }
     }
+   }
   post {
   always {
           archiveArtifacts artifacts: "cve_report", fingerprint: true
@@ -26,6 +27,5 @@ pipeline {
             reportName: 'Trivy CVE Report'
             ])
           }
-      }
     }
 }
