@@ -20,7 +20,7 @@ pipeline {
   always {
           archiveArtifacts artifacts: "cve_report", fingerprint: true
           publishHTML (target: [
-            allowMissing: false,--template "@contrib/sarif.tpl"
+            allowMissing: false,--template "html.tpl"
             alwaysLinkToLastBuild: false,
             keepAll: true,
             reportDir: '.',
