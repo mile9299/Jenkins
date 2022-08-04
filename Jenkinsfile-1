@@ -11,7 +11,7 @@ pipeline {
     }
     stage('Scan') {
       steps {
-        sh 'trivy image darinpope/java-web-app:latest --output cve_report.html'
+        sh 'trivy image --exit-code 0 --severity Info darinpope/java-web-app:latest --output cve_report.html'
       }
     }
    }
