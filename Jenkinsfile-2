@@ -9,10 +9,24 @@ pipeline {
         sh 'docker build -t darinpope/java-web-app:latest .'
       }
     }
+    echo "Trivy Scanning"
     stage('Scan') {
       steps {
-        sh 'trivy image --no-progress --exit-code 1 --severity HIGH,CRITICAL darinpope/java-web-app:latest'
+        sh 'trivy image --no-progress --exit-code 1 --severity HIGH,CRITICAL darinpope/java-web-app:latest --output cve_report.html'
       }
     }
   }
+ post {
+  always {
+          archiveArtifacts artifacts: "cve_report", fingerprint: true
+          publishHTML (target: [
+            allowMissing: false,
+            alwaysLinkToLastBuild: false,
+            keepAll: true,
+            reportDir: '.',
+            reportFiles: 'cve_report.html',
+            reportName: 'Trivy CVE Report'
+            ])
+          }
+       }
 }
