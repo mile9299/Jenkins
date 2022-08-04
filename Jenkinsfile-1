@@ -9,7 +9,7 @@ pipeline {
         sh 'docker build -t darinpope/java-web-app:latest .'
       }
     }
-    stage('Scan') {
+    stage('Trivy Scan') {
       steps {
         sh 'trivy image darinpope/java-web-app:latest --output cve_report.html'
       }
