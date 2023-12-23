@@ -36,6 +36,14 @@ pipeline {
       }
     }
   }
+  stage('Test') {
+     steps {
+        snykSecurity failOnError: false, snykInstallation: 'snyk-manual', snykTokenId: 'SNYK'
+
+      // place other parameters here
+ 
+     }
+  } 
   post {
     always {
       sh 'docker logout'
