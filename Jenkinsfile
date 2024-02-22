@@ -5,6 +5,7 @@ pipeline {
   }
   environment {
     HEROKU_API_KEY = credentials('darinpope-heroku-api-key')
+    SPECTRAL_DSN = credentials('SPECTRAL_DSN')
   }
   parameters { 
     string(name: 'APP_NAME', defaultValue: '', description: 'What is the Heroku app name?') 
@@ -26,6 +27,17 @@ pipeline {
           docker tag darinpope/java-web-app:latest registry.heroku.com/$APP_NAME/web
           docker push registry.heroku.com/$APP_NAME/web
         '''
+      }
+    }
+     stages {
+    stage('install Spectral') {
+      steps {
+        sh "curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$SPECTRAL_DSN' | sh"
+      }
+    }
+    stage('scan for issues') {
+      steps {
+        sh "$HOME/.spectral/spectral scan --ok  --include-tags base,audit"
       }
     }
     stage('Release the image') {
